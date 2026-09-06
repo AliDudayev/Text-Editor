@@ -1,4 +1,20 @@
 import tkinter as tk
+from tkinter.filedialog import askopenfilename, asksaveasfilename
+
+def open_file(window, text_area):
+    filepath = askopenfilename(filetypes=[("Text Files", "*.txt")])
+
+    if not filepath:
+        return
+
+    text_area.delete(1.0)
+    with open (filepath, "r") as f:
+        content = f.read()
+        text_area.insert(tk.END, content)
+    window.title(f"Open FIle: {filepath}")
+
+def save_file():
+    pass
 
 def main():
     window = tk.Tk()
@@ -10,8 +26,8 @@ def main():
     text_area.grid(row=0, column=1)
 
     frame = tk.Frame(window, relief=tk.RAISED, bd=2)
-    save_button = tk.Button(frame, text="Save")
-    open_button = tk.Button(frame, text="Open")
+    save_button = tk.Button(frame, text="Save", command=save_file)
+    open_button = tk.Button(frame, text="Open", command=lambda: open_file(window, text_area))
 
     save_button.grid(row=0, column=0, padx=5, pady=5, sticky="ew")
     open_button.grid(row=1, column=0, padx=5, sticky="ew")
